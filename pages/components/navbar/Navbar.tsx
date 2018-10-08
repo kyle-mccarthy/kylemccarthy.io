@@ -9,6 +9,7 @@ const Navbar: React.SFC = () => {
     <StyledNavbar>
       <Menu styles={styles}>
         <span><Link href="#"><a>Home</a></Link></span>
+        <span><Link href="#"><a>About</a></Link></span>
       </Menu>
     </StyledNavbar>
   );

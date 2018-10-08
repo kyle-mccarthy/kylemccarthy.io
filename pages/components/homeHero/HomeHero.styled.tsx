@@ -25,6 +25,7 @@ export const StyledTitle = styled('h1')(({ theme, ...props }: Themed<any, any>) 
   textTransform: 'uppercase',
   letterSpacing: '10px',
   color: theme.white,
+  textAlign: 'center',
   ['& > span']: {
     fontSize: '85%',
   },
