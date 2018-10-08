@@ -1,3 +1,4 @@
+import HomeHero from '@src/components/homeHero/HomeHero';
 import React from 'react';
 
 interface InitialProps {
@@ -12,7 +13,7 @@ class Index extends React.Component<Props> {
   }
 
   public render() {
-    return (<div>{this.props.query}</div>);
+    return (<div><HomeHero /></div>);
   }
 }
 

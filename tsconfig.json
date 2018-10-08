@@ -33,12 +33,13 @@
         "src/*"
       ],
       "@src/*": [
-        "client/*"
+        "pages/*"
       ]
     },
 
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "pages/typings"
     ]
   },
   "exclude": [
