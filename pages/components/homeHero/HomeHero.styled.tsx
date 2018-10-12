@@ -15,7 +15,7 @@ export const StyledHomeHero = styled('div')({
 
 export const StyledContent = styled('div')({
   width: '100%',
-  maxWidth: 600,
+  maxWidth: 500,
 });
 
 export const StyledTitle = styled('h1')(({ theme, ...props }: Themed<any, any>) => ({

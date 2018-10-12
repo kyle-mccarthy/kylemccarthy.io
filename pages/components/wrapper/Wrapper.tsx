@@ -1,13 +1,28 @@
 import React from 'react';
-import { css } from 'react-emotion';
+import styled, { css, Themed } from 'react-emotion';
 
-const styles = css({
-  maxWidth: 1200,
-  margin: '0 auto',
+type Variant = 'padded';
+
+const paddedStyles = css({
+  padding: '75px 0',
 });
 
-const Wrapper: React.SFC = ({ children }) => {
-  return (<div className={styles}>{children}</div>);
+const StyledWrapper = styled('div')((props: Themed<Props, any>) => ({
+  maxWidth: 1200,
+  margin: '0 auto',
+}), (props: Props) => {
+  if (props.variant === 'padded') {
+    return paddedStyles;
+  }
+  return null;
+});
+
+interface Props {
+  variant?: Variant;
+}
+
+const Wrapper: React.SFC<Props> = ({ children, ...props }) => {
+  return (<StyledWrapper {...props}>{children}</StyledWrapper>);
 };
 
 export default Wrapper;
