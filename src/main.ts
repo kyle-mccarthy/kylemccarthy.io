@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { FastifyAdapter, NestFactory } from '@nestjs/core';
 import RenderFilter from '@server/render/render.filter';
 import RenderMiddleware from '@server/render/render.middleware';
 import RenderService from '@server/render/render.service';
@@ -11,17 +11,23 @@ async function bootstrap() {
 
   await app.prepare();
 
-  const server = await NestFactory.create(AppModule);
+  const server = await NestFactory.create(AppModule, new FastifyAdapter());
 
   const renderService = server.get(RenderService);
 
   renderService.setRequestHandler(app.getRequestHandler());
   renderService.setRenderer(app.render.bind(app));
+  renderService.setErrorRenderer(app.renderError.bind(app));
 
   renderService.bindHttpServer(server.getHttpAdapter());
 
-  server.use((new RenderMiddleware(renderService)).resolve());
-  server.useGlobalFilters(new RenderFilter(renderService.getRequestHandler()!));
+  server.use(new RenderMiddleware(renderService).resolve());
+  server.useGlobalFilters(
+    new RenderFilter(
+      renderService.getRequestHandler()!,
+      renderService.getErrorRenderer()!
+    )
+  );
 
   await server.listen(3000);
 }

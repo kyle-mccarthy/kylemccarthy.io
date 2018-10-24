@@ -34,6 +34,7 @@ export class ConfigService implements TypeOrmOptionsFactory {
       database: this.get('DB_NAME'),
       synchronize: this.get('DB_SYNC'),
       entities: [`${__dirname}/../**/*.entity.ts`],
+      dropSchema: this.get('DB_DROP'),
     };
   }
 
@@ -46,6 +47,7 @@ export class ConfigService implements TypeOrmOptionsFactory {
       DB_USER: joi.string().optional(),
       DB_PASS: joi.string().optional(),
       DB_SYNC: joi.boolean().default(false),
+      DB_DROP: joi.boolean().default(false),
     });
 
     const { error, value } = joi.validate(envConfig, schema);

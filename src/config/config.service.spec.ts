@@ -26,4 +26,18 @@ describe('ConfigService', () => {
       service = new ConfigService();
     }).toThrow();
   });
+
+  it('should accept valid config', () => {
+    mockParse.mockImplementationOnce((args) => {
+      return {
+        DB_NAME: 'test',
+      };
+    });
+
+    expect(() => {
+      service = new ConfigService();
+    }).not.toThrow();
+
+    expect(service.get('DB_NAME')).toEqual('test');
+  });
 });
