@@ -1,17 +1,17 @@
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
-import { moduleForRoot } from '@server/testing/utils/database';
-import { CreateUserDTO } from '@server/user/dto/create-user.dto';
-import { User } from '@server/user/user.entity';
-import { UserModule } from '@server/user/user.module';
-import { UserService } from '@server/user/user.service';
+import { moduleForRoot } from '@src/testing/utils/database';
+import { CreateUserDTO } from '@src/user/dto/create-user.dto';
+import { User } from '@src/user/user.entity';
+import { UserModule } from '@src/user/user.module';
+import { UserService } from '@src/user/user.service';
 import { Connection } from 'typeorm';
 import { AuthService } from './auth.service';
 
 const createTestUser = async (
   authService: AuthService,
-  userService: UserService
+  userService: UserService,
 ): Promise<[User, CreateUserDTO]> => {
   const dto = {
     name: 'Casimer',
@@ -36,7 +36,7 @@ describe('AuthService', () => {
       imports: [
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-          secretOrPrivateKey: 'secretKey',
+          secretOrPrivateKey: '',
           signOptions: {
             expiresIn: 3600,
           },
@@ -82,7 +82,7 @@ describe('AuthService', () => {
     try {
       didMatch = await service.comparePassword(
         plaintextString,
-        encryptedString
+        encryptedString,
       );
     } catch (err) {
       error = err;
@@ -103,7 +103,7 @@ describe('AuthService', () => {
     try {
       didMatch = await service.comparePassword(
         'other test string',
-        encryptedString
+        encryptedString,
       );
     } catch (err) {
       error = err;
@@ -123,7 +123,7 @@ describe('AuthService', () => {
     try {
       user = await service.validateUserCredentials(
         newUserDto.email,
-        newUserDto.password
+        newUserDto.password,
       );
     } catch (err) {
       error = err;
@@ -144,7 +144,7 @@ describe('AuthService', () => {
     try {
       user = await service.validateUserCredentials(
         newUserDto.email,
-        'the wrong password'
+        'the wrong password',
       );
     } catch (err) {
       error = err;
@@ -153,7 +153,7 @@ describe('AuthService', () => {
     expect(error).not.toEqual(null);
     expect(user).toEqual(null);
     expect(error.message).toEqual(
-      'The email and password combination do not match'
+      'The email and password combination do not match',
     );
 
     user = null;
@@ -162,7 +162,7 @@ describe('AuthService', () => {
     try {
       user = await service.validateUserCredentials(
         'Crystel.Schroeder@gmail.com',
-        newUser.password
+        newUser.password,
       );
     } catch (err) {
       error = err;
@@ -171,7 +171,7 @@ describe('AuthService', () => {
     expect(error).not.toEqual(null);
     expect(user).toEqual(null);
     expect(error.message).toEqual(
-      'The email and password combination do not match'
+      'The email and password combination do not match',
     );
   });
 
@@ -207,4 +207,20 @@ describe('AuthService', () => {
   });
 
   // verify token
+  it('should verify valid token', async () => {
+    await connection.synchronize(true);
+    const [user] = await createTestUser(service, userService);
+
+    const token = service.signUser(user);
+    const decodedToken = service.decodeToken(token);
+    const isValid = service.verifyToken(token);
+
+    expect(token).toBeDefined();
+    expect(isValid).toEqual(decodedToken);
+  });
+
+  it('should not verify invalid token', () => {
+    const isValid = service.decodeToken('invalid token');
+    expect(isValid).toEqual(null);
+  });
 });

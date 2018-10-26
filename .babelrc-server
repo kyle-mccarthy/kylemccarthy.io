@@ -23,17 +23,6 @@
       {
         "loose": true
       }
-    ],
-    [
-      "module-resolver",
-      {
-        "root": [
-          "./.next/production-server"
-        ],
-        "alias": {
-          "@server": "./.next/production-server"
-        }
-      }
     ]
   ]
 }

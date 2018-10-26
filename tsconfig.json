@@ -19,12 +19,13 @@
     "lib": ["es2017"],
     "baseUrl": ".",
     "paths": {
-      "@server/*": ["src/*"],
-      "@src/*": ["pages/*"]
+      "@src/*": ["src/*"],
+      "@ui/*": ["ui/*"],
+      "@pages/*": ["pages/*"]
     },
     "typeRoots": ["node_modules/@types", "pages/typings"],
     "types": ["jest"]
   },
-  "include": ["./src", "./pages"],
+  "include": ["./src", "./pages", "./ui"],
   "exclude": ["node_modules"]
 }

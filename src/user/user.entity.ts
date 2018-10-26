@@ -1,4 +1,4 @@
-import { IsUnique } from '@server/common/validation/unique/unique.decorator';
+import { IsUnique } from '@src/common/validation/unique/unique.decorator';
 import { IsAlphanumeric, IsDefined, IsEmail, MinLength } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 

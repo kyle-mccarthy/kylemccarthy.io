@@ -1,21 +1,8 @@
 {
-  "extends": ["tslint:recommended", "tslint-react"],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "quotemark": [true, "single", "jsx-double"],
     "semicolon": [true, "always"],
-    "trailing-comma": [
-      true,
-      {
-        "singleline": "never",
-        "multiline": {
-          "objects": "always",
-          "arrays": "always",
-          "functions": "never",
-          "typeLiterals": "ignore"
-        },
-        "esSpecCompliant": true
-      }
-    ],
     "object-literal-sort-keys": false,
     "no-unused-variable": true,
     "interface-name": false,

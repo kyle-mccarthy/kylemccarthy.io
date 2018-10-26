@@ -1,13 +1,13 @@
-import HomeHero from '@src/components/homeHero/HomeHero';
-import Text from '@src/components/text/Text';
-import Wrapper from '@src/components/wrapper/Wrapper';
+import HomeHero from '@ui/components/homeHero/HomeHero';
+import Text from '@ui/components/text/Text';
+import Wrapper from '@ui/components/wrapper/Wrapper';
 import React from 'react';
 
 interface InitialProps {
   query: string;
 }
 
-interface Props extends InitialProps { }
+interface Props extends InitialProps {}
 
 class Index extends React.Component<Props> {
   public static getInitialProps({ query }: InitialProps) {

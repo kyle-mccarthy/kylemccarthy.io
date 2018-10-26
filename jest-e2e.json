@@ -1,0 +1,10 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testRegex": ".e2e-spec.ts$",
+  "moduleNameMapper": {
+    "^@src/(.*)$": "<rootDir>/src/$1"
+  },
+  "preset": "ts-jest/presets/js-with-ts",
+  "testMatch": null
+}

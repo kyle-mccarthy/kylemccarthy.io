@@ -1,8 +1,8 @@
-import '@src/assets/globalStyles';
-import theme from '@src/assets/theme';
-import Navbar from '@src/components/navbar/Navbar';
+import '@ui/assets/globalStyles';
+import theme from '@ui/assets/theme';
+import Navbar from '@ui/components/navbar/Navbar';
 import { ThemeProvider } from 'emotion-theming';
-import App, {Container} from 'next/app';
+import App, { Container } from 'next/app';
 import React from 'react';
 
 export default class MyApp extends App {
@@ -13,11 +13,11 @@ export default class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    return {pageProps};
+    return { pageProps };
   }
 
   public render() {
-    const {Component, pageProps} = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <Container>
         <ThemeProvider theme={theme}>
