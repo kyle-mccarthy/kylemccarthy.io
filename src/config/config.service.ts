@@ -48,7 +48,23 @@ export class ConfigService implements TypeOrmOptionsFactory {
       DB_PASS: joi.string().optional(),
       DB_SYNC: joi.boolean().default(false),
       DB_DROP: joi.boolean().default(false),
+
       JWT_SECRET: joi.string().default('secretKey'),
+
+      SMTP_HOST: joi
+        .string()
+        .hostname()
+        .optional(),
+      SMTP_PORT: joi
+        .number()
+        .port()
+        .optional(),
+      SMTP_SECURE: joi
+        .boolean()
+        .default(false)
+        .optional(),
+      SMTP_USER: joi.string().optional(),
+      SMTP_PASS: joi.string().optional(),
     });
 
     const { error, value } = joi.validate(envConfig, schema);

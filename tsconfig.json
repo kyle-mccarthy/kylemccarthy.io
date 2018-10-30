@@ -23,9 +23,9 @@
       "@ui/*": ["ui/*"],
       "@pages/*": ["pages/*"]
     },
-    "typeRoots": ["node_modules/@types", "pages/typings"],
+    "typeRoots": ["node_modules/@types", "./typings"],
     "types": ["jest"]
   },
-  "include": ["./src", "./pages", "./ui"],
+  "include": ["./pages", "./ui", "./src", "./typings"],
   "exclude": ["node_modules"]
 }

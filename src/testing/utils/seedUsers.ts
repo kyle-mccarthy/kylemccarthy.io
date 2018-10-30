@@ -1,8 +1,8 @@
 import { TestingModule } from '@nestjs/testing';
-import { AuthService } from '@src/auth/auth.service';
-import { CreateUserDTO } from '@src/user/dto/create-user.dto';
-import { User } from '@src/user/user.entity';
-import { UserService } from '@src/user/user.service';
+import { AuthService } from '@src/api/auth/auth.service';
+import { CreateUserDTO } from '@src/api/user/dto/create-user.dto';
+import { User } from '@src/api/user/user.entity';
+import { UserService } from '@src/api/user/user.service';
 import { Connection } from 'typeorm';
 
 export interface TestUser {
@@ -68,7 +68,6 @@ export async function seedUsers(
   sync: boolean = true,
 ): Promise<TestUser[]> {
   const service = testModule.get(UserService) as UserService;
-  const authService = testModule.get(AuthService) as AuthService;
   const connection = testModule.get(Connection);
 
   if (sync) {
@@ -79,7 +78,7 @@ export async function seedUsers(
     await Promise.all(
       mockUsers.map(async dto => {
         const user = service.create(dto);
-        user.password = await authService.hashPassword(user.password);
+        user.password = await service.hashPassword(user.password);
         return user;
       }),
     ),

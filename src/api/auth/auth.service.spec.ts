@@ -2,10 +2,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import { moduleForRoot } from '@src/testing/utils/database';
-import { CreateUserDTO } from '@src/user/dto/create-user.dto';
-import { User } from '@src/user/user.entity';
-import { UserModule } from '@src/user/user.module';
-import { UserService } from '@src/user/user.service';
+import { CreateUserDTO } from '@src/api/user/dto/create-user.dto';
+import { User } from '@src/api/user/user.entity';
+import { UserModule } from '@src/api/user/user.module';
+import { UserService } from '@src/api/user/user.service';
 import { Connection } from 'typeorm';
 import { AuthService } from './auth.service';
 
@@ -20,7 +20,7 @@ const createTestUser = async (
   };
 
   const user = userService.create(dto);
-  user.password = await authService.hashPassword(user.password);
+  user.password = await userService.hashPassword(user.password);
   await userService.save(user);
   return [user, dto];
 };
@@ -36,7 +36,7 @@ describe('AuthService', () => {
       imports: [
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-          secretOrPrivateKey: '',
+          secretOrPrivateKey: 'testing',
           signOptions: {
             expiresIn: 3600,
           },
@@ -54,63 +54,6 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
     expect(userService).toBeDefined();
     expect(connection).toBeDefined();
-  });
-
-  it('should hash a string', async () => {
-    const plaintextString = 'test string';
-    let encryptedString = null;
-    let error = null;
-
-    try {
-      encryptedString = service.hashPassword(plaintextString);
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toEqual(null);
-    expect(encryptedString).not.toEqual(null);
-    expect(plaintextString).not.toEqual(encryptedString);
-  });
-
-  it('should truthfully matched hashed string and corresponding plaintext', async () => {
-    const plaintextString = 'test string';
-    const encryptedString = await service.hashPassword(plaintextString);
-
-    let didMatch = null;
-    let error = null;
-
-    try {
-      didMatch = await service.comparePassword(
-        plaintextString,
-        encryptedString,
-      );
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toEqual(null);
-    expect(didMatch).toEqual(true);
-    expect(plaintextString).not.toEqual(encryptedString);
-  });
-
-  it('should NOT matched hashed string and different plaintext', async () => {
-    const plaintextString = 'test string';
-    const encryptedString = await service.hashPassword(plaintextString);
-
-    let didMatch = null;
-    let error = null;
-
-    try {
-      didMatch = await service.comparePassword(
-        'other test string',
-        encryptedString,
-      );
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toEqual(null);
-    expect(didMatch).toEqual(false);
   });
 
   it('should validate user with email and correct password', async () => {

@@ -1,0 +1,7 @@
+<mjml>
+  <mj-body>
+    <mj-wrapper css-class="content-wrapper">
+      {{> content }}
+    </mj-wrapper>
+  </mj-body>
+</mjml>

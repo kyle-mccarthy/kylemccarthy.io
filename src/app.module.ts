@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UniqueValidator } from '@src/common/validation/unique/unique.validator';
 import { RenderModule } from 'nest-next';
+import { ApiModule } from './api/api.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { UserModule } from './user/user.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { UserModule } from './user/user.module';
       imports: [ConfigModule, UniqueValidator],
       useExisting: ConfigService,
     }),
-    AuthModule,
+    ApiModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

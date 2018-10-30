@@ -69,7 +69,7 @@ describe('UserService', () => {
       ],
     }).compile();
     service = module.get<UserService>(UserService);
-    await service.save(mockUsers.map((user) => service.create(user)));
+    await service.save(mockUsers.map(user => service.create(user)));
   });
 
   it('should be defined', () => {
@@ -92,6 +92,7 @@ describe('UserService', () => {
       email: 'validgmailemail@gmail.com',
       name: 'test',
       password: '!#$ADF!#',
+      passwordConfirmed: '!#$ADF!#',
     };
 
     const user = await service.create(validUser);
@@ -105,6 +106,7 @@ describe('UserService', () => {
     const duplicateUser = mockUsers[0];
 
     const user = await service.create(duplicateUser);
+    user.passwordConfirmed = user.password;
     const errors = await service.validate(user);
 
     expect(Array.isArray(errors)).toBeTruthy();
@@ -137,6 +139,7 @@ describe('UserService', () => {
       name: 'Dolores',
       email: 'Woodrow_Williamson6@yahoo.com',
       password: 'Sc9fr8eKj5dUVuE',
+      passwordConfirmed: 'Sc9fr8eKj5dUVuE',
     });
 
     expect(await service.validate(newUser)).toHaveLength(0);
@@ -165,5 +168,62 @@ describe('UserService', () => {
     expect(user!.id).toEqual(updatedUser!.id);
     expect(updatedUser!.name).not.toEqual(ogName);
     expect(updatedUser!.name).toEqual(nextName);
+  });
+
+  it('should hash a string', async () => {
+    const plaintextString = 'test string';
+    let encryptedString = null;
+    let error = null;
+
+    try {
+      encryptedString = service.hashPassword(plaintextString);
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error).toEqual(null);
+    expect(encryptedString).not.toEqual(null);
+    expect(plaintextString).not.toEqual(encryptedString);
+  });
+
+  it('should truthfully matched hashed string and corresponding plaintext', async () => {
+    const plaintextString = 'test string';
+    const encryptedString = await service.hashPassword(plaintextString);
+
+    let didMatch = null;
+    let error = null;
+
+    try {
+      didMatch = await service.comparePassword(
+        plaintextString,
+        encryptedString,
+      );
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error).toEqual(null);
+    expect(didMatch).toEqual(true);
+    expect(plaintextString).not.toEqual(encryptedString);
+  });
+
+  it('should NOT matched hashed string and different plaintext', async () => {
+    const plaintextString = 'test string';
+    const encryptedString = await service.hashPassword(plaintextString);
+
+    let didMatch = null;
+    let error = null;
+
+    try {
+      didMatch = await service.comparePassword(
+        'other test string',
+        encryptedString,
+      );
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error).toEqual(null);
+    expect(didMatch).toEqual(false);
   });
 });

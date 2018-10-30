@@ -8,8 +8,9 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["node_modules/@types", "./typings"]
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "lib": ["esnext", "dom"]
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*.spec.ts"],
   "exclude": ["node_modules"]
 }

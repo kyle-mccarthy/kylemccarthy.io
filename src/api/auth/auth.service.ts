@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@src/user/user.entity';
-import { UserService } from '@src/user/user.service';
-import bcrypt from 'bcrypt';
+import { User } from '@src/api/user/user.entity';
+import { UserService } from '@src/api/user/user.service';
+
 import { DecodedPayload } from './dto/decoded-jwt';
 import { JwtPayload } from './dto/jwt-payload';
 
@@ -23,7 +23,10 @@ export class AuthService {
       throw new Error(errorText);
     }
 
-    const validPassword = await this.comparePassword(password, user.password);
+    const validPassword = await this.userService.comparePassword(
+      password,
+      user.password,
+    );
 
     if (!validPassword) {
       throw new Error(errorText);
@@ -48,13 +51,5 @@ export class AuthService {
 
   public decodeToken(token: string): null | DecodedPayload {
     return this.jwtService.decode(token, {}) as DecodedPayload;
-  }
-
-  public async hashPassword(str: string) {
-    return await bcrypt.hash(str, 10);
-  }
-
-  public async comparePassword(plaintext: string, encrypted: string) {
-    return await bcrypt.compare(plaintext, encrypted);
   }
 }
