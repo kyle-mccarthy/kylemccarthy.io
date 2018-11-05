@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { EmailRendererService } from '@src/notification/email-renderer.service';
-import { SendMailOptions, Transporter } from 'nodemailer';
+import { EmailNotification } from '@src/notification/email/email-notification';
+import { NotificationInterface } from '@src/notification/notification.interface';
+import { EmailNotificationService } from './email/email-notification.service';
 
 @Injectable()
 export class NotificationService {
-  constructor(
-    private readonly mailer: Transporter,
-    private readonly renderer: EmailRendererService,
-  ) {}
+  constructor(private readonly emailNotification: EmailNotificationService) {}
 
-  public verify() {
-    return this.mailer.verify!();
-  }
-
-  public send(message: SendMailOptions) {
-    this.mailer.sendMail(message);
+  public notifiy(notification: NotificationInterface) {
+    if (notification.getType() === 'email') {
+      this.emailNotification.notify(notification as EmailNotification);
+    }
   }
 }

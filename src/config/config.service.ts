@@ -38,6 +38,18 @@ export class ConfigService implements TypeOrmOptionsFactory {
     };
   }
 
+  public getMailConfig() {
+    return {
+      host: this.get('SMTP_HOST'),
+      port: this.get('SMTP_PORT'),
+      secure: this.get('SMTP_SECURE'),
+      auth: {
+        user: this.get('SMTP_USER'),
+        pass: this.get('SMTP_PASS'),
+      },
+    };
+  }
+
   private validateConfig(envConfig: EnvConfig): EnvConfig {
     const schema: joi.ObjectSchema = joi.object({
       DB: joi.string().default('postgres'),

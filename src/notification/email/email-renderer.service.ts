@@ -22,7 +22,7 @@ export class EmailRendererService {
   private options: RendererOptions;
 
   constructor() {
-    this.basePath = path.resolve(__dirname, './../../emails');
+    this.basePath = path.resolve(__dirname, './../../../emails');
     this.options = this.mergeOptions({});
   }
 
@@ -49,6 +49,12 @@ export class EmailRendererService {
     return mjml2html(injectedHtml);
   }
 
+  public getDefaultOptions(): RendererOptions {
+    return {
+      layout: 'layout',
+    };
+  }
+
   protected async getTemplate(template: string) {
     const templatePath = path.resolve(this.basePath, `${template}.mjml`);
     const html = await readFile(templatePath, 'utf8');
@@ -61,7 +67,7 @@ export class EmailRendererService {
 
   private mergeOptions(options: Partial<RendererOptions> = {}) {
     return {
-      layout: 'layout',
+      ...this.getDefaultOptions(),
       ...options,
     };
   }

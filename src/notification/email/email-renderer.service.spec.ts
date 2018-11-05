@@ -25,10 +25,13 @@ describe('EmailRendererService', () => {
     expect(errors.length).toEqual(0);
 
     const dom = new JSDOM(html);
-    const res = (dom.window as any).document.querySelectorAll(
-      '.forgot-password',
-    );
+    const document = dom.window.document.querySelectorAll('.forgot-password');
 
-    expect(res['0']).toBeDefined();
+    expect(document[0]).toBeDefined();
+
+    const helloText = dom.window.document.querySelectorAll('.hello-text');
+    expect(
+      (helloText[0].textContent as string).includes('John Doe'),
+    ).toBeTruthy();
   });
 });

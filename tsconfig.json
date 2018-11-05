@@ -16,7 +16,7 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2017"],
+    "lib": ["es2017", "dom"],
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"],

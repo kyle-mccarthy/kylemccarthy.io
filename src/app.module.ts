@@ -7,13 +7,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
-import { UserModule } from './user/user.module';
+import { EmailNotificationService } from './notificatiom/email/email-notification.service';
 import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
     RenderModule,
-    UserModule,
     ConfigModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule, UniqueValidator],
@@ -23,6 +22,6 @@ import { NotificationModule } from './notification/notification.module';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailNotificationService],
 })
 export class AppModule {}
