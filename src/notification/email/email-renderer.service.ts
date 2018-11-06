@@ -21,8 +21,8 @@ export class EmailRendererService {
   private basePath: string;
   private options: RendererOptions;
 
-  constructor() {
-    this.basePath = path.resolve(__dirname, './../../../emails');
+  constructor(basePath: string) {
+    this.basePath = basePath;
     this.options = this.mergeOptions({});
   }
 

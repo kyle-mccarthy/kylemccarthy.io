@@ -31,7 +31,8 @@ export interface TemplateVariables {
   [key: string]: any;
 }
 
-export abstract class EmailNotification implements NotificationInterface {
+export abstract class EmailNotification<T = TemplateVariables>
+  implements NotificationInterface {
   public template?: string;
   public from?: string | Address;
   public sender?: string | Address;
@@ -43,13 +44,13 @@ export abstract class EmailNotification implements NotificationInterface {
   public text?: string;
   public html?: string;
   public attachments?: Attachment[];
-  protected data?: TemplateVariables;
+  protected data?: T;
 
-  public setData(data: TemplateVariables) {
+  public setData(data: T) {
     this.data = data;
   }
 
-  public getData(): TemplateVariables | undefined {
+  public getData(): T | undefined {
     return this.data;
   }
 

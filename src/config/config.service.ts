@@ -3,6 +3,7 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { parse } from 'dotenv';
 import * as fs from 'fs';
 import * as joi from 'joi';
+import { resolve } from 'path';
 
 export interface EnvConfig {
   [key: string]: any;
@@ -70,13 +71,15 @@ export class ConfigService implements TypeOrmOptionsFactory {
       SMTP_PORT: joi
         .number()
         .port()
-        .optional(),
+        .default(587),
       SMTP_SECURE: joi
         .boolean()
         .default(false)
         .optional(),
       SMTP_USER: joi.string().optional(),
       SMTP_PASS: joi.string().optional(),
+
+      EMAIL_DIR: joi.string().default(resolve(`${__dirname}/../../emails`)),
     });
 
     const { error, value } = joi.validate(envConfig, schema);

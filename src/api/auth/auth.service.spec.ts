@@ -1,11 +1,11 @@
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
-import { moduleForRoot } from '@src/testing/utils/database';
 import { CreateUserDTO } from '@src/api/user/dto/create-user.dto';
 import { User } from '@src/api/user/user.entity';
 import { UserModule } from '@src/api/user/user.module';
 import { UserService } from '@src/api/user/user.service';
+import { moduleForRoot } from '@src/testing/utils/database';
 import { Connection } from 'typeorm';
 import { AuthService } from './auth.service';
 

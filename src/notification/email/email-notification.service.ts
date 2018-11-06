@@ -7,11 +7,16 @@ import { EmailRendererService } from './email-renderer.service';
 
 @Injectable()
 export class EmailNotificationService {
-  private readonly renderer = new EmailRendererService();
+  private readonly renderer: EmailRendererService;
   private readonly mailer: Transporter;
 
   constructor(private readonly config: ConfigService) {
     this.mailer = createTransport(this.config.getMailConfig());
+    this.renderer = new EmailRendererService(this.config.get('EMAIL_DIR'));
+  }
+
+  public verify() {
+    return this.mailer.verify();
   }
 
   public async notify(email: EmailNotification) {
@@ -20,11 +25,14 @@ export class EmailNotificationService {
       email.getData(),
     );
 
-    if (renderedEmail.errors) {
+    if (
+      Array.isArray(renderedEmail.errors) &&
+      renderedEmail.errors.length > 0
+    ) {
       throw new Error(renderedEmail.errors.join(', '));
     }
 
-    email.html = email.html;
+    email.html = renderedEmail.html;
 
     return this.mailer.sendMail(email);
   }
