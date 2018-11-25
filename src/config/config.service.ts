@@ -61,6 +61,14 @@ export class ConfigService implements TypeOrmOptionsFactory {
     };
   }
 
+  public getRedisConfig() {
+    return {
+      port: this.get('REDIS_PORT'),
+      host: this.get('REDIS_HOST'),
+      password: this.get('REDIS_PASS'),
+    };
+  }
+
   private validateConfig(envConfig: EnvConfig): EnvConfig {
     const schema: joi.ObjectSchema = joi.object({
       DB: joi.string().default('postgres'),
@@ -90,6 +98,13 @@ export class ConfigService implements TypeOrmOptionsFactory {
       SMTP_PASS: joi.string().optional(),
 
       EMAIL_DIR: joi.string().default(resolve(`${__dirname}/../../emails`)),
+
+      REDIS_PORT: joi.number().default(6379),
+      REDIS_HOST: joi
+        .string()
+        .hostname()
+        .default('127.0.0.1'),
+      REDIS_PASS: joi.string().optional(),
     });
 
     const { error, value } = joi.validate(envConfig, schema);

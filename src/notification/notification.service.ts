@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { EmailNotification } from '@src/notification/email/email-notification';
 import {
   NotificationInterface,
   NotificationType,
 } from '@src/notification/notification.interface';
-import { EmailNotificationService } from './email/email-notification.service';
 
 interface NotificationServiceInterface {
   notify(notification: NotificationInterface): any;

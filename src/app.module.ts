@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { NotificationModule } from './notification/notification.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { NotificationModule } from './notification/notification.module';
     }),
     ApiModule,
     NotificationModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
