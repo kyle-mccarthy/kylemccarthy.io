@@ -14,6 +14,7 @@ describe('NotificationService', () => {
       providers: [NotificationService],
       imports: [ConfigModule],
     }).compile();
+
     service = module.get<NotificationService>(NotificationService);
     const configService = module.get<ConfigService>(ConfigService);
     mailer = new EmailNotificationService(configService);
@@ -31,32 +32,28 @@ describe('NotificationService', () => {
     expect(didVerify).toBeTruthy();
   });
 
-  it(
-    'should notify via mail',
-    async () => {
-      const notification = new ForgotPasswordNotification(
-        {
-          name: 'Elon Musk',
-          email: 'elon.musk@gmail.com',
-        },
-        {
-          name: 'Elon Musk',
-          url: 'http://www.google.com',
-        },
-      );
+  it('should notify via mail', async () => {
+    const notification = new ForgotPasswordNotification(
+      {
+        name: 'Elon Musk',
+        email: 'elon.musk@gmail.com',
+      },
+      {
+        name: 'Elon Musk',
+        url: 'http://www.google.com',
+      },
+    );
 
-      let res;
-      let err;
+    let res;
+    let err;
 
-      try {
-        res = await service.notifiy(notification);
-      } catch (e) {
-        err = e;
-      }
+    try {
+      res = await service.notifiy(notification);
+    } catch (e) {
+      err = e;
+    }
 
-      expect(err).toBeUndefined();
-      expect(res).toBeDefined();
-    },
-    20000,
-  );
+    expect(err).toBeUndefined();
+    expect(res).toBeDefined();
+  }, 20000);
 });

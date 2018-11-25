@@ -7,7 +7,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
-import { EmailNotificationService } from './notificatiom/email/email-notification.service';
 import { NotificationModule } from './notification/notification.module';
 
 @Module({
@@ -22,6 +21,6 @@ import { NotificationModule } from './notification/notification.module';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EmailNotificationService],
+  providers: [AppService],
 })
 export class AppModule {}

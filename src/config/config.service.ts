@@ -9,6 +9,16 @@ export interface EnvConfig {
   [key: string]: any;
 }
 
+export interface MailConfig {
+  host: string;
+  port: number;
+  secure: boolean;
+  auth: {
+    user: string;
+    pass: string;
+  };
+}
+
 @Injectable()
 export class ConfigService implements TypeOrmOptionsFactory {
   private readonly envConfig: EnvConfig;
