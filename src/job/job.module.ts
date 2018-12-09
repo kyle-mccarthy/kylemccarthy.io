@@ -1,7 +1,14 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleDestroy } from '@nestjs/common';
 import { JobService } from './job.service';
 
 @Module({
   providers: [JobService],
+  exports: [JobService],
 })
-export class JobModule {}
+export class JobModule implements OnModuleDestroy {
+  constructor(private readonly service: JobService) {}
+
+  public async onModuleDestroy() {
+    await this.service.shutdown();
+  }
+}

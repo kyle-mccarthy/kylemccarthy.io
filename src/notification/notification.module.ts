@@ -1,10 +1,11 @@
 import { Module, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@src/config/config.service';
+import { JobModule } from '@src/job/job.module';
 import { EmailNotificationService } from './email/email-notification.service';
 import { NotificationService } from './notification.service';
 
 @Module({
   providers: [NotificationService, EmailNotificationService],
+  exports: [NotificationService],
 })
 export class NotificationModule implements OnModuleInit {
   constructor(
